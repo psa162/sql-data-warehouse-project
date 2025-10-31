@@ -21,7 +21,8 @@ Designed as a portfolio project to showcase technical depth and practical implem
 - 🔗 **Integration:** Merges ERP and CRM into a unified analytical model.  
 - 🧱 **Schema Design:** Implements a simplified Star Schema optimized for BI and performance.  
 - 🤖 **Automation:** Stored procedures for consistent, repeatable ETL runs.  
-- 📑 **Documentation:** Includes a professional [Data Dictionary](docs/Data_Dictionary/Professional_Data_Dictionary_Gold_Layer.docx).  
+- 📑 **Documentation:** Includes a professional [Data Dictionary](docs/Professional_Data_Dictionary_Gold_Layer.docx).
+
 
 ---
 
@@ -30,6 +31,8 @@ Designed as a portfolio project to showcase technical depth and practical implem
 The data architecture follows the **Medallion Pattern** — Bronze, Silver, and Gold layers:  
 
 ![Medallion Architecture](docs/Medallion_Architecture.png)
+
+![Star Schema](docs/Starscema.drawio.png)
 
 **Explanation:**  
 1. **Bronze Layer:** Stores raw data as-is from source systems (ERP & CRM).  
@@ -54,7 +57,8 @@ This diagram illustrates the end-to-end ETL process from raw sources to analytic
 | **Stored Procedures** | Automation for incremental and batch loads. |
 | **Analytical Views** | Datasets ready for visualization and KPI tracking. |
 | **Power BI Setup** | Predefined data connections and measures. |
-| **Documentation** | Includes [Data Dictionary](docs/Data_Dictionary/Professional_Data_Dictionary_Gold_Layer.docx). |
+| **Documentation** | Includes [Data Dictionary](docs/Professional_Data_Dictionary_Gold_Layer.docx). |
+
 
 ---
 
@@ -107,7 +111,9 @@ These insights enable better business decisions and performance tracking.
 
 📈 Power BI Dashboard
 
-Below is a snapshot of the final dashboard built on the Gold Layer model:
+Below is a snapshot of the **final dashboard** built on the Gold Layer model:  
+
+![Power BI Dashboard](docs/PowerBI_Dashboard.png)
 
 🧰 Technology Stack
 
