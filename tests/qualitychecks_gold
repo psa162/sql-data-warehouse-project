@@ -2,30 +2,116 @@
 ======================================================================================
 QUALITY CHECKS
 ======================================================================================
-Script purpose:
-This script performs various quality checks for data consitency, accuracy and standardisation. 
-It includes:
-- Check for duplicates
--Unwanted spaces in strings field
--Invalid dates ranges
-- Data consistency between related fields.
+
+Script Purpose:
+Runs Gold-layer quality checks for consistency, accuracy, and standardisation.
+
+Includes:
+- Duplicates in dimensions
+- Unwanted spaces in string fields
+- Invalid date ranges
+- Data consistency across related fields
+- Orphan records in facts
 
 Usage Notes:
-- Run these checks after loading gold Layer
--Investigate and resolve any discrepancies found during the checks
+- Run after loading the Gold layer (views created).
+- Investigate any returned rows; empty result sets = no issues.
 
-============================================================================================
-*/
---- Check for duplicates, conflicting data
-SELECT DISTINCT
-ci.cst_gndr,
-ca.gen,
-CASE WHEN ci.cst_gndr !='n/a' THEN ci.cst_gndr --- CRM is the Master for the gender Info 
-ELSE COALESCE(ca.gen, 'n/a')
-END AS new_gen
-FROM silver.crm_cust_info ci
-LEFT JOIN silver.erp_cust_az12 ca
-ON ci.cst_key = ca.cid
-LEFT JOIN silver.erp_loc_a101 la
-ON ci.cst_key = la.cid
-ORDER BY 1,2
+====================================================================================== */
+
+SET NOCOUNT ON;
+
+----------------------------------------------------------
+-- DIM_CUSTOMERS: duplicates by natural key
+----------------------------------------------------------
+SELECT customer_id, COUNT(*) AS cnt
+FROM gold.dim_customers
+GROUP BY customer_id
+HAVING COUNT(*) > 1;
+
+----------------------------------------------------------
+-- DIM_CUSTOMERS: unwanted leading/trailing spaces
+----------------------------------------------------------
+SELECT *
+FROM gold.dim_customers
+WHERE first_name <> LTRIM(RTRIM(first_name))
+   OR last_name  <> LTRIM(RTRIM(last_name))
+   OR country    <> LTRIM(RTRIM(country));
+
+----------------------------------------------------------
+-- DIM_CUSTOMERS: gender domain check
+----------------------------------------------------------
+SELECT *
+FROM gold.dim_customers
+WHERE gender NOT IN ('Male','Female','n/a') OR gender IS NULL;
+
+----------------------------------------------------------
+-- DIM_CUSTOMERS: birthdate sanity (no future dates)
+----------------------------------------------------------
+SELECT *
+FROM gold.dim_customers
+WHERE birthdate IS NOT NULL
+  AND birthdate > GETDATE();
+
+----------------------------------------------------------
+-- DIM_PRODUCTS: duplicates by product_number
+----------------------------------------------------------
+SELECT product_number, COUNT(*) AS cnt
+FROM gold.dim_products
+GROUP BY product_number
+HAVING COUNT(*) > 1;
+
+----------------------------------------------------------
+-- DIM_PRODUCTS: category/subcategory blanks
+----------------------------------------------------------
+SELECT *
+FROM gold.dim_products
+WHERE LTRIM(RTRIM(COALESCE(category,'')))   = ''
+   OR LTRIM(RTRIM(COALESCE(subcategory,''))) = '';
+
+----------------------------------------------------------
+-- DIM_PRODUCTS: cost non-negative
+----------------------------------------------------------
+SELECT *
+FROM gold.dim_products
+WHERE cost IS NULL OR cost < 0;
+
+----------------------------------------------------------
+-- DIM_PRODUCTS: dates sanity (start <= end when end not null)
+----------------------------------------------------------
+SELECT *
+FROM gold.dim_products
+WHERE end_date IS NOT NULL
+  AND start_date > end_date;
+
+----------------------------------------------------------
+-- FACT_SALES: orphan checks (missing product or customer)
+----------------------------------------------------------
+SELECT *
+FROM gold.fact_sales
+WHERE product_key IS NULL
+   OR customer_id IS NULL;
+
+----------------------------------------------------------
+-- FACT_SALES: date logic (order <= ship <= due where present)
+----------------------------------------------------------
+SELECT *
+FROM gold.fact_sales
+WHERE (shipping_date IS NOT NULL AND order_date IS NOT NULL AND shipping_date < order_date)
+   OR (due_date      IS NOT NULL AND shipping_date IS NOT NULL AND due_date < shipping_date);
+
+----------------------------------------------------------
+-- FACT_SALES: measure consistency (sales = quantity * ABS(price))
+----------------------------------------------------------
+SELECT *
+FROM gold.fact_sales
+WHERE sales_amount <> quantity * ABS(price);
+
+----------------------------------------------------------
+-- FACT_SALES: non-sense values (negative qty, nulls)
+----------------------------------------------------------
+SELECT *
+FROM gold.fact_sales
+WHERE quantity < 0
+   OR price IS NULL
+   OR sales_amount IS NULL;
