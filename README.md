@@ -42,7 +42,7 @@ The data architecture follows the **Medallion Pattern** — Bronze, Silver, and 
 
 This diagram illustrates the end-to-end ETL process from raw sources to analytical models:  
 
-![ETL Flow](docs/Data flow diagram.drawio.png)
+![ETL Flow](docs/Data%20flow%20diagram.drawio.png)
 
 ---
 
