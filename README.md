@@ -4,7 +4,7 @@
 ![SQL Server](https://img.shields.io/badge/SQL-Server-lightgrey)
 ![Power BI](https://img.shields.io/badge/Power%20BI-Visualization-yellow)
 ![Status](https://img.shields.io/badge/Status-Active-brightgreen)
-![Built With](https://img.shields.io/badge/Built%20With-SQL%2C%20Python%2C%20PowerBI-orange)
+![Built With](https://img.shields.io/badge/Built%20With-SQL%2C%20PowerBI-orange)
 
 ---
 
@@ -19,23 +19,30 @@ Designed as a portfolio project to showcase technical depth and practical implem
 - 🗂️ **Data Sources:** Imports raw data from ERP and CRM CSV files.  
 - 🧹 **Data Quality:** Cleanses, validates, and standardizes data across systems.  
 - 🔗 **Integration:** Merges ERP and CRM into a unified analytical model.  
-- 🧱 **Schema Design:** Simplified Star Schema optimized for BI and performance.  
+- 🧱 **Schema Design:** Implements a simplified Star Schema optimized for BI and performance.  
 - 🤖 **Automation:** Stored procedures for consistent, repeatable ETL runs.  
 - 📑 **Documentation:** Includes a professional [Data Dictionary](docs/Data_Dictionary/Professional_Data_Dictionary_Gold_Layer.docx).  
 
 ---
 
-### 🧩 Data Model Architecture  
-Below is the **Star Schema** used in the Gold Layer:  
+### 🧩 Data Architecture  
 
-![Star Schema](docs/Starscema.drawio.png)
+The data architecture follows the **Medallion Pattern** — Bronze, Silver, and Gold layers:  
+
+![Medallion Architecture](docs/Medallion_Architecture.png)
+
+**Explanation:**  
+1. **Bronze Layer:** Stores raw data as-is from source systems (ERP & CRM).  
+2. **Silver Layer:** Cleansed and standardized data after validation and normalization.  
+3. **Gold Layer:** Business-ready data modeled into fact and dimension tables for analytics.  
 
 ---
 
-### 🔄 ETL Pipeline Flow  
-1. **Bronze Layer:** Raw data ingestion from CSV files.  
-2. **Silver Layer:** Cleansed and standardized tables.  
-3. **Gold Layer:** Business-ready analytical model (fact and dimension tables).  
+### 🔄 ETL Flow Diagram  
+
+This diagram illustrates the end-to-end ETL process from raw sources to analytical models:  
+
+![ETL Flow](docs/Dataflow_diagram.drawio.png)
 
 ---
 
@@ -55,7 +62,7 @@ Below is the **Star Schema** used in the Gold Layer:
 | Folder | Purpose |
 |---------|----------|
 | **datasets/** | Contains ERP and CRM source CSV files. |
-| **docs/** | Holds project documentation and data dictionary. |
+| **docs/** | Holds documentation, data dictionary, and diagrams. |
 | **scripts/** | SQL scripts for Bronze, Silver, and Gold layers. |
 | **tests/** | Data quality and validation scripts. |
 
@@ -67,8 +74,7 @@ Below is the **Star Schema** used in the Gold Layer:
    ```bash
    git clone https://github.com/psa162/sql-data-warehouse-project.git
    cd sql-data-warehouse-project
-
-2.Setup the Database
+2. Setup the Database
 
 -- Run to create schema
 scripts/database.sql
@@ -85,11 +91,11 @@ scripts/gold/ddl_gold.sql
 Located under /tests/.
 
 5. Connect Power BI
-Link to the Gold Layer database for visualizations and KPIs.
+Link Power BI to the Gold Layer for dashboards and KPI visualization.
 
 📊 Analytics & Reporting Goals
 
-This project delivers insights into:
+This project generates insights into:
 
 👥 Customer behavior and segmentation
 
@@ -97,7 +103,11 @@ This project delivers insights into:
 
 💰 Sales trends and forecasting
 
-These insights enable better decision-making and business performance tracking.
+These insights enable better business decisions and performance tracking.
+
+📈 Power BI Dashboard
+
+Below is a snapshot of the final dashboard built on the Gold Layer model:
 
 🧰 Technology Stack
 
@@ -105,14 +115,12 @@ These insights enable better decision-making and business performance tracking.
 
 📈 Power BI
 
-🐍 Python (ETL scripting and validation)
-
 📊 Excel / CSV (Source files)
 
 💡 Why This Project Matters
 
 This project replicates a real-world enterprise data warehouse pipeline.
-It demonstrates how to move from raw operational data to clean, structured insights, applying principles of dimensional modeling, automation, and business intelligence integration.
+It demonstrates how to move from raw operational data to structured business insights, applying principles of dimensional modeling, automation, and BI integration.
 
 📜 License
 
