@@ -138,3 +138,4 @@ Samuel Amoo
 Senior Business Analyst & Data Analytics Professional
 Focused on building scalable data models and actionable BI insights.
 📧 samuelamoo@gmail.com
+🔗 LinkedIn Profile
