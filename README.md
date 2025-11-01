@@ -134,8 +134,9 @@ MIT License — free to use, modify, and share with attribution.
 
 👤 Author
 
-Samuel Amoo
-Senior Business Analyst & Data Analytics Professional
-Focused on building scalable data models and actionable BI insights.
-📧 samuelamoo@gmail.com
-🔗 LinkedIn Profile
+Samuel Amoo  
+**Senior Business Analyst & Data Analytics Professional**  
+Focused on building scalable data models and actionable BI insights.  
+📧 samuelamoo@gmail.com  
+🔗 [LinkedIn Profile](https://www.linkedin.com/in/samuel-amoo/)
+
