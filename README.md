@@ -113,7 +113,7 @@ These insights enable better business decisions and performance tracking.
 
 Below is a snapshot of the **final dashboard** built on the Gold Layer model:  
 
-![Power BI Dashboard](docs/PowerBI_Dashboard.png)
+![Power BI Dashboard](docs/PowerBI_Dashboard(2).png)
 
 🧰 Technology Stack
 
